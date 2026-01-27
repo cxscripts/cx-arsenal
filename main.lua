@@ -1,8 +1,3 @@
--- CX Arsenal Main Script
--- Version: v1.3.0
--- Discord: cxscripts | discord.gg/ZSTPp2jTFG
--- Key: cx2026
-
 local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
 local Players = game:GetService("Players")
