@@ -1,7 +1,1064 @@
-if (game.PlaceId~=286090429) then local v118=game:GetService("Players");local v119=v118.LocalPlayer;v119:Kick("❌ CX Arsenal only works in Arsenal! Join Arsenal to use this script.");return;end local v0,v1=pcall(loadstring(game:HttpGet("https://sirius.menu/rayfield")));if ( not v0 or  not v1) then warn("Rayfield load failed");return;end print("========================================");print("Loaded CX Arsenal v1.1");print("Game: Arsenal (Verified)");print("========================================");local v2=game:GetService("Players");local v3=game:GetService("RunService");local v4=game:GetService("UserInputService");local v5=game:GetService("Stats");local v6=game:GetService("ReplicatedStorage");local v7=game:GetService("Workspace");local v8=v2.LocalPlayer;local v9=workspace.CurrentCamera;local v10="CX Arsenal";local v11="v1.1";local v12=false;local v13={};local v14=v8.Name;local v15=v8.DisplayName;local v16={FakeName="CX",FakeDisplay="CX",MatchColor=true};local function v17(v82) if ( not v82 or  not v82.Text) then return;end if ( not v82.Text:find(v14) and  not v82.Text:find(v15)) then return;end local v83=v82.Text;local v84=v83:gsub(v14,v16.FakeName);v84=v84:gsub(v15,v16.FakeDisplay);if (v83~=v84) then v82.Text=v84;end end local function v18(v85) if  not v85 then return;end if (v85:IsA("TextLabel") or v85:IsA("TextButton") or v85:IsA("TextBox")) then pcall(function() v17(v85);end);pcall(function() local v201=v85:GetPropertyChangedSignal("Text"):Connect(function() v17(v85);end);table.insert(v13,v201);end);end end local function v19(v86) if  not v86 then return;end local v87=v86:WaitForChild("Humanoid",10);if v87 then v87.DisplayName=v16.FakeDisplay;pcall(function() local v202=v87:GetPropertyChangedSignal("DisplayName"):Connect(function() if (v87.DisplayName~=v16.FakeDisplay) then v87.DisplayName=v16.FakeDisplay;end end);table.insert(v13,v202);end);end end local function v20() for v120,v121 in ipairs(v13) do pcall(function() v121:Disconnect();end);end v13={};pcall(function() for v160,v161 in ipairs(v8.PlayerGui:GetDescendants()) do v18(v161);end end);pcall(function() local v122=v8.PlayerGui.DescendantAdded:Connect(v18);table.insert(v13,v122);end);pcall(function() local v123=game:GetService("CoreGui");for v162,v163 in ipairs(v123:GetDescendants()) do v18(v163);end local v124=v123.DescendantAdded:Connect(v18);table.insert(v13,v124);end);if v8.Character then v19(v8.Character);end pcall(function() local v125=v8.CharacterAdded:Connect(v19);table.insert(v13,v125);end);v1:Notify({Title="Streamer Mode ON",Content="Your name is now protected across all UI elements",Duration=4});end local v21=false;local v22=true;local v23=false;local v24=Color3.fromRGB(255,50,50);local v25={};local v26;local function v27(v88) if ( not v88 or (v88==v8) or v25[v88]) then return;end pcall(function() local v126=Drawing.new("Square");v126.Thickness=2;v126.Filled=false;v126.Transparency=1;v126.Color=v24;v126.Visible=false;local v132=Drawing.new("Line");v132.Thickness=1.5;v132.Color=v24;v132.Transparency=0.8;v132.Visible=false;v25[v88]={box=v126,tracer=v132};end);end local function v28(v89) local v90=v25[v89];if v90 then pcall(function() v90.box:Remove();v90.tracer:Remove();end);v25[v89]=nil;end end local function v29() if  not v21 then return;end local v91=Vector2.new(v9.ViewportSize.X/2 ,v9.ViewportSize.Y);for v138,v139 in v2:GetPlayers() do pcall(function() local v165=v25[v139];if  not v165 then return;end local v166=v139.Character;if ( not v166 or  not v166:FindFirstChild("HumanoidRootPart") or  not v166:FindFirstChild("Head")) then v165.box.Visible=false;v165.tracer.Visible=false;return;end local v167=v166:FindFirstChild("Humanoid");if ( not v167 or (v167.Health<=0)) then v165.box.Visible=false;v165.tracer.Visible=false;return;end if (v166.HumanoidRootPart.Position.Y< -50) then v165.box.Visible=false;v165.tracer.Visible=false;return;end if (v22 and (v8.Team==v139.Team)) then v165.box.Visible=false;v165.tracer.Visible=false;return;end local v168,v169=v9:WorldToViewportPoint(v166.HumanoidRootPart.Position);if  not v169 then v165.box.Visible=false;v165.tracer.Visible=false;return;end local v170=v9:WorldToViewportPoint(v166.Head.Position + Vector3.new(0,0.5,0) );local v171=v9:WorldToViewportPoint(v166.HumanoidRootPart.Position-Vector3.new(0,3,0) );local v172=math.clamp((v170.Y-v171.Y) * 1.2 ,20,500);local v173=v172 * 0.5 ;v165.box.Size=Vector2.new(v173,v172);v165.box.Position=Vector2.new(v168.X-(v173/2) ,v168.Y-(v172/2) );v165.box.Visible=true;v165.tracer.From=v91;v165.tracer.To=Vector2.new(v168.X,v168.Y);v165.tracer.Visible=true;local v180=(v23 and Color3.fromHSV((tick() * 0.2)%1 ,1,1)) or v24 ;v165.box.Color=v180;v165.tracer.Color=v180;end);end end local v30=false;local v31=0.4;local v32=150;local v33=false;local v34=false;local v35=Color3.fromRGB(255,255,255);local v36=Drawing.new("Circle");v36.Thickness=2;v36.NumSides=60;v36.Radius=v32;v36.Filled=false;v36.Transparency=0.7;v36.Visible=v33;v36.Color=v35;local v44;local function v45() local v92,v93=nil,v32;local v94=v4:GetMouseLocation();for v140,v141 in v2:GetPlayers() do pcall(function() if ((v141==v8) or  not v141.Character) then return;end local v183=v141.Character:FindFirstChild("Head");local v184=v141.Character:FindFirstChild("Humanoid");if ( not v183 or  not v184 or (v184.Health<=0)) then return;end if (v183.Position.Y< -50) then return;end if (v22 and (v8.Team==v141.Team)) then return;end local v185,v186=v9:WorldToViewportPoint(v183.Position);if  not v186 then return;end local v187=(Vector2.new(v185.X,v185.Y) -v94).Magnitude;if (v187<v93) then v93=v187;v92=v141;end end);end return v92;end local function v46() if v44 then v44:Disconnect();end v44=v3.RenderStepped:Connect(function(v142) pcall(function() if ( not v30 or  not v4:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)) then return;end local v188=v45();if ( not v188 or  not v188.Character or  not v188.Character:FindFirstChild("Head")) then return;end local v189=v188.Character.Head.Position;local v190=v9.CFrame;local v191=CFrame.new(v190.Position,v189);local v192=1 -((1 -v31)^(v142 * 60)) ;v9.CFrame=v190:Lerp(v191,v192);end);end);end local v47=v1:CreateWindow({Name=v10   .. " | 2026" ,LoadingTitle=v10,LoadingSubtitle="v1.1",ConfigurationSaving={Enabled=false},Discord={Enabled=false},KeySystem=true,KeySettings={Title=v10   .. " | Key System" ,Subtitle="Enter key to continue",Note="Key: cx2026",FileName="CXKey",SaveKey=false,GrabKeyFromSite=false,Key={"cx2026"}}});v1:Notify({Title="CX Arsenal v1.1",Content="Welcome! Script loaded successfully",Duration=5});local v48=v47:CreateTab("Updates",7733955511);local v49=v47:CreateTab("Combat",7072725342);local v50=v47:CreateTab("Visuals",4483362458);local v51=v47:CreateTab("Player",7734068321);local v52=v47:CreateTab("Misc",7734021231);local v53=v47:CreateTab("Server",7743875529);v48:CreateParagraph({Title="CX Arsenal - Version History",Content="All major updates and changes to the script"});v48:CreateSection("🎉 v1.1 - Current Version");v48:CreateParagraph({Title="v1.1 Updates (Latest)",Content=[[
+-- CX Arsenal
+-- Version: v1.1 - Main Menu Fix
+-- Key: cx2026
+
+-- =============================================
+-- ARSENAL GAME CHECK (ONLY WORKS IN ARSENAL!)
+-- =============================================
+if game.PlaceId ~= 286090429 then
+    local Players = game:GetService("Players")
+    local LocalPlayer = Players.LocalPlayer
+    
+    LocalPlayer:Kick("❌ CX Arsenal only works in Arsenal! Join Arsenal to use this script.")
+    return
+end
+
+local success, Rayfield = pcall(loadstring(game:HttpGet("https://sirius.menu/rayfield")))
+if not success or not Rayfield then
+    warn("Rayfield load failed")
+    return
+end
+
+print("========================================")
+print("Loaded CX Arsenal v1.1")
+print("Game: Arsenal (Verified)")
+print("========================================")
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Stats = game:GetService("Stats")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = game:GetService("Workspace")
+local LocalPlayer = Players.LocalPlayer
+local Camera = workspace.CurrentCamera
+
+local SCRIPT_NAME = "CX Arsenal"
+local SCRIPT_VERSION = "v1.1"
+
+-- Name Protect Vars
+local NameProtectEnabled = false
+local NameProtectConnections = {}
+local RealName = LocalPlayer.Name
+local RealDisplay = LocalPlayer.DisplayName
+local CONFIG = {
+    FakeName = "CX",
+    FakeDisplay = "CX",
+    MatchColor = true
+}
+
+-- Function that instantly replaces text
+local function SpoofText(obj)
+    if not obj or not obj.Text then return end
+    if not obj.Text:find(RealName) and not obj.Text:find(RealDisplay) then return end
+    
+    local originalText = obj.Text
+    local newText = originalText:gsub(RealName, CONFIG.FakeName)
+    newText = newText:gsub(RealDisplay, CONFIG.FakeDisplay)
+    
+    if originalText ~= newText then
+        obj.Text = newText
+    end
+end
+
+-- Function to process an object
+local function MonitorObject(obj)
+    if not obj then return end
+    if obj:IsA("TextLabel") or obj:IsA("TextButton") or obj:IsA("TextBox") then
+        pcall(function()
+            SpoofText(obj)
+        end)
+        
+        pcall(function()
+            local conn = obj:GetPropertyChangedSignal("Text"):Connect(function()
+                SpoofText(obj)
+            end)
+            table.insert(NameProtectConnections, conn)
+        end)
+    end
+end
+
+-- Handle character
+local function MonitorCharacter(char)
+    if not char then return end
+    local humanoid = char:WaitForChild("Humanoid", 10)
+    if humanoid then
+        humanoid.DisplayName = CONFIG.FakeDisplay
+        
+        pcall(function()
+            local conn = humanoid:GetPropertyChangedSignal("DisplayName"):Connect(function()
+                if humanoid.DisplayName ~= CONFIG.FakeDisplay then
+                    humanoid.DisplayName = CONFIG.FakeDisplay
+                end
+            end)
+            table.insert(NameProtectConnections, conn)
+        end)
+    end
+end
+
+local function EnableNameProtect()
+    for _, conn in ipairs(NameProtectConnections) do
+        pcall(function() conn:Disconnect() end)
+    end
+    NameProtectConnections = {}
+    
+    pcall(function()
+        for _, v in ipairs(LocalPlayer.PlayerGui:GetDescendants()) do
+            MonitorObject(v)
+        end
+    end)
+    
+    pcall(function()
+        local conn1 = LocalPlayer.PlayerGui.DescendantAdded:Connect(MonitorObject)
+        table.insert(NameProtectConnections, conn1)
+    end)
+    
+    pcall(function()
+        local CoreGui = game:GetService("CoreGui")
+        for _, v in ipairs(CoreGui:GetDescendants()) do
+            MonitorObject(v)
+        end
+        local conn2 = CoreGui.DescendantAdded:Connect(MonitorObject)
+        table.insert(NameProtectConnections, conn2)
+    end)
+    
+    if LocalPlayer.Character then
+        MonitorCharacter(LocalPlayer.Character)
+    end
+    
+    pcall(function()
+        local conn3 = LocalPlayer.CharacterAdded:Connect(MonitorCharacter)
+        table.insert(NameProtectConnections, conn3)
+    end)
+    
+    Rayfield:Notify({
+        Title = "Streamer Mode ON",
+        Content = "Your name is now protected across all UI elements",
+        Duration = 4
+    })
+end
+
+-- ESP Vars
+local ESP_ENABLED = false
+local TEAM_CHECK = true
+local RAINBOW_ESP = false
+local ESP_COLOR = Color3.fromRGB(255, 50, 50)
+local ESP_OBJECTS = {}
+local espUpdateConn
+
+local function CreateESP(player)
+    if not player or player == LocalPlayer or ESP_OBJECTS[player] then return end
+    
+    pcall(function()
+        local box = Drawing.new("Square")
+        box.Thickness = 2
+        box.Filled = false
+        box.Transparency = 1
+        box.Color = ESP_COLOR
+        box.Visible = false
+
+        local tracer = Drawing.new("Line")
+        tracer.Thickness = 1.5
+        tracer.Color = ESP_COLOR
+        tracer.Transparency = 0.8
+        tracer.Visible = false
+
+        ESP_OBJECTS[player] = {box = box, tracer = tracer}
+    end)
+end
+
+local function RemoveESP(player)
+    local esp = ESP_OBJECTS[player]
+    if esp then
+        pcall(function()
+            esp.box:Remove()
+            esp.tracer:Remove()
+        end)
+        ESP_OBJECTS[player] = nil
+    end
+end
+
+local function UpdateESP()
+    if not ESP_ENABLED then return end
+    local center = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y)
+    for _, player in Players:GetPlayers() do
+        pcall(function()
+            local esp = ESP_OBJECTS[player]
+            if not esp then return end
+
+            local char = player.Character
+            if not char or not char:FindFirstChild("HumanoidRootPart") or not char:FindFirstChild("Head") then
+                esp.box.Visible = false
+                esp.tracer.Visible = false
+                return
+            end
+
+            local hum = char:FindFirstChild("Humanoid")
+            if not hum or hum.Health <= 0 then
+                esp.box.Visible = false
+                esp.tracer.Visible = false
+                return
+            end
+
+            -- Ignore players below the map (main menu)
+            if char.HumanoidRootPart.Position.Y < -50 then
+                esp.box.Visible = false
+                esp.tracer.Visible = false
+                return
+            end
+
+            if TEAM_CHECK and LocalPlayer.Team == player.Team then
+                esp.box.Visible = false
+                esp.tracer.Visible = false
+                return
+            end
+
+            local rootPos, vis = Camera:WorldToViewportPoint(char.HumanoidRootPart.Position)
+            if not vis then
+                esp.box.Visible = false
+                esp.tracer.Visible = false
+                return
+            end
+
+            local headPos = Camera:WorldToViewportPoint(char.Head.Position + Vector3.new(0,0.5,0))
+            local legPos = Camera:WorldToViewportPoint(char.HumanoidRootPart.Position - Vector3.new(0,3,0))
+            local h = math.clamp((headPos.Y - legPos.Y) * 1.2, 20, 500)
+            local w = h * 0.5
+
+            esp.box.Size = Vector2.new(w, h)
+            esp.box.Position = Vector2.new(rootPos.X - w/2, rootPos.Y - h/2)
+            esp.box.Visible = true
+
+            esp.tracer.From = center
+            esp.tracer.To = Vector2.new(rootPos.X, rootPos.Y)
+            esp.tracer.Visible = true
+
+            local color = RAINBOW_ESP and Color3.fromHSV(tick() * 0.2 % 1, 1, 1) or ESP_COLOR
+            esp.box.Color = color
+            esp.tracer.Color = color
+        end)
+    end
+end
+
+-- Aimbot Vars
+local AIMBOT_ENABLED = false
+local AIM_SMOOTHNESS = 0.4
+local AIM_FOV = 150
+local AIM_FOV_VISIBLE = false
+local AIM_FOV_RAINBOW = false
+local AIM_FOV_COLOR = Color3.fromRGB(255, 255, 255)
+
+local fovCircle = Drawing.new("Circle")
+fovCircle.Thickness = 2
+fovCircle.NumSides = 60
+fovCircle.Radius = AIM_FOV
+fovCircle.Filled = false
+fovCircle.Transparency = 0.7
+fovCircle.Visible = AIM_FOV_VISIBLE
+fovCircle.Color = AIM_FOV_COLOR
+
+local aimConn
+
+local function GetClosestTarget()
+    local closest, minDist = nil, AIM_FOV
+    local mouse = UserInputService:GetMouseLocation()
+    for _, p in Players:GetPlayers() do
+        pcall(function()
+            if p == LocalPlayer or not p.Character then return end
+            local head = p.Character:FindFirstChild("Head")
+            local hum = p.Character:FindFirstChild("Humanoid")
+            if not head or not hum or hum.Health <= 0 then return end
+            
+            -- Ignore players below the map (main menu)
+            if head.Position.Y < -50 then return end
+            
+            if TEAM_CHECK and LocalPlayer.Team == p.Team then return end
+            local pos, onScreen = Camera:WorldToViewportPoint(head.Position)
+            if not onScreen then return end
+            local d = (Vector2.new(pos.X, pos.Y) - mouse).Magnitude
+            if d < minDist then
+                minDist = d
+                closest = p
+            end
+        end)
+    end
+    return closest
+end
+
+local function StartAimbot()
+    if aimConn then aimConn:Disconnect() end
+    aimConn = RunService.RenderStepped:Connect(function(dt)
+        pcall(function()
+            if not AIMBOT_ENABLED or not UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2) then return end
+            local target = GetClosestTarget()
+            if not target or not target.Character or not target.Character:FindFirstChild("Head") then return end
+            local tgtPos = target.Character.Head.Position
+            local cf = Camera.CFrame
+            local tgtCf = CFrame.new(cf.Position, tgtPos)
+            local alpha = 1 - (1 - AIM_SMOOTHNESS)^(dt * 60)
+            Camera.CFrame = cf:Lerp(tgtCf, alpha)
+        end)
+    end)
+end
+
+-- Window
+local Window = Rayfield:CreateWindow({
+    Name = SCRIPT_NAME .. " | 2026",
+    LoadingTitle = SCRIPT_NAME,
+    LoadingSubtitle = "v1.1",
+    ConfigurationSaving = {Enabled = false},
+    Discord = {Enabled = false},
+    KeySystem = true,
+    KeySettings = {
+        Title = SCRIPT_NAME .. " | Key System",
+        Subtitle = "Enter key to continue",
+        Note = "Key: cx2026",
+        FileName = "CXKey",
+        SaveKey = false,
+        GrabKeyFromSite = false,
+        Key = {"cx2026"}
+    }
+})
+
+Rayfield:Notify({
+    Title = "CX Arsenal v1.1",
+    Content = "Welcome! Script loaded successfully",
+    Duration = 5
+})
+
+-- Create tabs
+local Updates = Window:CreateTab("Updates", 7733955511)
+local Combat = Window:CreateTab("Combat", 7072725342)
+local Visuals = Window:CreateTab("Visuals", 4483362458)
+local Player = Window:CreateTab("Player", 7734068321)
+local Misc = Window:CreateTab("Misc", 7734021231)
+local Server = Window:CreateTab("Server", 7743875529)
+
+-- =============================================
+-- UPDATES TAB
+-- =============================================
+Updates:CreateParagraph({
+    Title = "CX Arsenal - Version History",
+    Content = "All major updates and changes to the script"
+})
+
+Updates:CreateSection("🎉 v1.1 - Current Version")
+
+Updates:CreateParagraph({
+    Title = "v1.1 Updates (Latest)",
+    Content = [[
 - yo fixed that annoying aimbot bug
 - it kept locking onto people in the lobby lmao
 - esp was doing the same thing so i fixed that too
 - basically if ur below the map it ignores u now
 - way better aiming trust
-]]});v48:CreateSection("📜 Previous Versions");v48:CreateParagraph({Title="v1.0",Content="• first version lol\n• had some bugs but whatever\n• worked most of the time"});local v54=game:GetService("TeleportService");local v55=game:GetService("HttpService");local v56;local v57;local v58=0;local v59=0;local v60=tick();local v61=0;v3.RenderStepped:Connect(function() v61=v61 + 1 ;local v95=tick();if ((v95-v60)>=1) then v59=v61;v61=0;v60=v95;end end);task.spawn(function() while true do pcall(function() local v194,v195=pcall(function() return v5.Network.ServerStatsItem["Data Ping"]:GetValue();end);if v194 then v58=math.floor(v195);end end);task.wait(1);end end);local v62=false;local v63=1;local v64;local function v65() if v64 then v64:Disconnect();end v64=v3.Heartbeat:Connect(function() if  not v62 then if v64 then v64:Disconnect();v64=nil;end return;end for v196,v197 in pairs(v2:GetPlayers()) do pcall(function() if ((v197.Name~=v8.Name) and v197.Character) then if v197.Character:FindFirstChild("RightUpperLeg") then v197.Character.RightUpperLeg.CanCollide=false;v197.Character.RightUpperLeg.Transparency=v63;v197.Character.RightUpperLeg.Size=Vector3.new(13,13,13);end if v197.Character:FindFirstChild("LeftUpperLeg") then v197.Character.LeftUpperLeg.CanCollide=false;v197.Character.LeftUpperLeg.Transparency=v63;v197.Character.LeftUpperLeg.Size=Vector3.new(13,13,13);end if v197.Character:FindFirstChild("HeadHB") then v197.Character.HeadHB.CanCollide=false;v197.Character.HeadHB.Transparency=v63;v197.Character.HeadHB.Size=Vector3.new(13,13,13);end if v197.Character:FindFirstChild("HumanoidRootPart") then v197.Character.HumanoidRootPart.CanCollide=false;v197.Character.HumanoidRootPart.Transparency=v63;v197.Character.HumanoidRootPart.Size=Vector3.new(13,13,13);end end end);end end);v1:Notify({Title="Hitbox Expander",Content="Enabled! Enemy hitboxes expanded",Duration=3});end local function v66() if v64 then v64:Disconnect();v64=nil;end v1:Notify({Title="Hitbox Expander",Content="Disabled!",Duration=3});end local v67=false;local v68=16;local v69;local function v70() pcall(function() local v143=v8.Character;if  not v143 then return;end local v144=v143:FindFirstChildOfClass("Humanoid");if  not v144 then return;end if v67 then v144.WalkSpeed=v68;else v144.WalkSpeed=16;end end);end local function v71() if v69 then v69:Disconnect();end v69=v3.Heartbeat:Connect(function() if v67 then pcall(function() local v227=v8.Character;if v227 then local v236=v227:FindFirstChildOfClass("Humanoid");if (v236 and (v236.WalkSpeed~=v68)) then v236.WalkSpeed=v68;end end end);end end);end local function v72() if v69 then v69:Disconnect();v69=nil;end pcall(function() local v145=v8.Character;if v145 then local v205=v145:FindFirstChildOfClass("Humanoid");if v205 then v205.WalkSpeed=16;end end end);end local v73=false;local v74;local function v75() if v74 then v74:Disconnect();end v74=v4.JumpRequest:Connect(function() pcall(function() if  not v73 then return;end local v198=v8.Character;if  not v198 then return;end local v199=v198:FindFirstChildOfClass("Humanoid");if v199 then v199:ChangeState(Enum.HumanoidStateType.Jumping);end end);end);end local function v76() if v74 then v74:Disconnect();v74=nil;end end local v77=false;local v78=50;local v79;local function v80() pcall(function() local v146=v8.Character;if  not v146 then return;end local v147=v146:FindFirstChild("HumanoidRootPart");if  not v147 then return;end if v79 then v79:Disconnect();end local v148=v146:FindFirstChildOfClass("Humanoid");if v148 then v148.PlatformStand=true;end v79=v3.Heartbeat:Connect(function() pcall(function() if ( not v77 or  not v146 or  not v146.Parent) then if v79 then v79:Disconnect();v79=nil;end if v148 then v148.PlatformStand=false;end return;end if ( not v147 or  not v147.Parent) then return;end v147.Velocity=Vector3.new(0,0,0);v147.RotVelocity=Vector3.new(0,0,0);local v209=Vector3.new(0,0,0);if v4:IsKeyDown(Enum.KeyCode.W) then v209=v209 + v9.CFrame.LookVector ;end if v4:IsKeyDown(Enum.KeyCode.S) then v209=v209-v9.CFrame.LookVector ;end if v4:IsKeyDown(Enum.KeyCode.A) then v209=v209-v9.CFrame.RightVector ;end if v4:IsKeyDown(Enum.KeyCode.D) then v209=v209 + v9.CFrame.RightVector ;end if v4:IsKeyDown(Enum.KeyCode.Space) then v209=v209 + Vector3.new(0,1,0) ;end if v4:IsKeyDown(Enum.KeyCode.LeftShift) then v209=v209-Vector3.new(0,1,0) ;end if (v209.Magnitude>0) then v209=v209.Unit;v147.CFrame=v147.CFrame + (v209 * v78 * 0.016) ;end v147.CFrame=CFrame.new(v147.Position) * CFrame.Angles(0,math.rad(v9.CFrame:ToEulerAnglesYXZ()),0) ;end);end);end);end local function v81() if v79 then v79:Disconnect();v79=nil;end pcall(function() local v149=v8.Character;if v149 then local v211=v149:FindFirstChildOfClass("Humanoid");if v211 then v211.PlatformStand=false;end local v212=v149:FindFirstChild("HumanoidRootPart");if v212 then v212.Velocity=Vector3.new(0,0,0);v212.RotVelocity=Vector3.new(0,0,0);end end end);end v8.CharacterAdded:Connect(function(v96) task.wait(0.5);if v67 then v70();end if v77 then v80();end if v73 then v75();end end);v51:CreateToggle({Name="Fly (WASD + Space/Shift)",CurrentValue=false,Callback=function(v97) v77=v97;if v97 then v80();v1:Notify({Title="Fly",Content="Enabled!",Duration=3});else v81();end end});v51:CreateSlider({Name="Fly Speed",Range={10,200},Increment=5,Suffix=" speed",CurrentValue=50,Callback=function(v98) v78=v98;end});v51:CreateToggle({Name="Infinite Jump",CurrentValue=false,Callback=function(v99) v73=v99;if v99 then v75();v1:Notify({Title="Infinite Jump",Content="Enabled!",Duration=3});else v76();end end});v51:CreateToggle({Name="Custom WalkSpeed",CurrentValue=false,Callback=function(v100) v67=v100;if v100 then v71();v70();v1:Notify({Title="WalkSpeed",Content="Enabled!",Duration=3});else v72();end end});v51:CreateSlider({Name="WalkSpeed",Range={16,200},Increment=1,Suffix=" speed",CurrentValue=16,Callback=function(v101) v68=v101;if v67 then v70();end end});v52:CreateButton({Name="Kill GUI",Callback=function() print("========================================");print("Killed CX Arsenal v1.1");print("========================================");v1:Notify({Title="Destroying GUI...",Content="Goodbye!",Duration=2});task.wait(0.5);v21=false;v30=false;v77=false;v67=false;v62=false;v73=false;v12=false;if v26 then v26:Disconnect();end if v44 then v44:Disconnect();end if v79 then v79:Disconnect();end if v69 then v69:Disconnect();end if v74 then v74:Disconnect();end for v150,v151 in ipairs(v13) do pcall(function() v151:Disconnect();end);end for v152 in pairs(v25) do v28(v152);end pcall(function() v36:Remove();end);v81();v76();if v62 then v66();end v72();task.wait(0.5);v1:Destroy();end});v49:CreateToggle({Name="Aimbot (Hold RMB - Head)",CurrentValue=false,Callback=function(v102) v30=v102;if v102 then v46();elseif v44 then v44:Disconnect();v44=nil;end end});v49:CreateSlider({Name="Smoothness (%)",Range={0,100},Increment=1,Suffix="%",CurrentValue=40,Callback=function(v103) v31=v103/100 ;end});v49:CreateSlider({Name="FOV Size",Range={50,800},Increment=10,Suffix="px",CurrentValue=150,Callback=function(v104) v32=v104;v36.Radius=v104;end});v49:CreateToggle({Name="Show FOV Circle",CurrentValue=false,Callback=function(v106) v33=v106;v36.Visible=v106;end});v49:CreateToggle({Name="Rainbow FOV",CurrentValue=false,Callback=function(v108) v34=v108;end});v49:CreateColorPicker({Name="FOV Color",Color=v35,Callback=function(v109) v35=v109;if  not v34 then v36.Color=v109;end end});v49:CreateToggle({Name="Hitbox Expander",CurrentValue=false,Callback=function(v110) v62=v110;if v110 then v65();else v66();end end});v49:CreateSlider({Name="Hitbox Transparency",Range={0,100},Increment=1,Suffix="%",CurrentValue=100,Callback=function(v111) v63=v111/100 ;end});v50:CreateButton({Name="Hide YOUR Name",Callback=function() if  not v12 then v12=true;v20();else v1:Notify({Title="Streamer Mode",Content="Already enabled!",Duration=2});end end});v50:CreateSection("ESP Options");v50:CreateToggle({Name="ESP (Boxes + Tracers)",CurrentValue=false,Callback=function(v112) v21=v112;if v112 then for v213,v214 in v2:GetPlayers() do if (v214~=v8) then v27(v214);end end if  not v26 then v26=v3.RenderStepped:Connect(v29);end else if v26 then v26:Disconnect();v26=nil;end for v215 in pairs(v25) do v28(v215);end end end});v50:CreateToggle({Name="Team Check",CurrentValue=true,Callback=function(v113) v22=v113;end});v50:CreateToggle({Name="Rainbow ESP",CurrentValue=false,Callback=function(v114) v23=v114;end});v50:CreateColorPicker({Name="ESP Color",Color=v24,Callback=function(v115) v24=v115;end});v53:CreateLabel("🟢 Status: Undetected");v53:CreateSection("Performance Monitor");v56=v53:CreateLabel("Ping: Calculating...");v57=v53:CreateLabel("FPS: Calculating...");task.spawn(function() while true do pcall(function() if v56 then v56:Set("Ping: "   .. v58   .. " ms" );end if v57 then v57:Set("FPS: "   .. v59 );end end);task.wait(0.5);end end);v53:CreateSection("Server Options");v53:CreateButton({Name="Rejoin Server",Callback=function() v1:Notify({Title="Rejoining...",Content="Teleporting back",Duration=2});task.wait(1);v54:TeleportToPlaceInstance(game.PlaceId,game.JobId,v8);end});v53:CreateButton({Name="Join New Server",Callback=function() v1:Notify({Title="Finding Server...",Content="Searching",Duration=2});task.wait(1);v54:Teleport(game.PlaceId,v8);end});v3.RenderStepped:Connect(function() pcall(function() v36.Position=v4:GetMouseLocation();if (v34 and v33) then v36.Color=Color3.fromHSV((tick() * 0.3)%1 ,1,1);end end);end);v2.PlayerAdded:Connect(function(v116) if (v21 and (v116~=v8)) then task.delay(1,function() v27(v116);end);end end);v2.PlayerRemoving:Connect(v28);v4.InputBegan:Connect(function(v117) pcall(function() if (v117.KeyCode==Enum.KeyCode.Insert) then v1:ToggleUI();end end);end);if v73 then v75();end game:BindToClose(function() print("========================================");print("Killed CX Arsenal v1.1");print("========================================");if v26 then v26:Disconnect();end if v44 then v44:Disconnect();end if v79 then v79:Disconnect();end if v64 then v64:Disconnect();end if v69 then v69:Disconnect();end if v74 then v74:Disconnect();end for v154 in pairs(v25) do v28(v154);end for v155,v156 in ipairs(v13) do pcall(function() v156:Disconnect();end);end pcall(function() v36:Remove();end);v81();v76();end);
+]]
+})
+
+Updates:CreateSection("📜 Previous Versions")
+
+Updates:CreateParagraph({
+    Title = "v1.0",
+    Content = "• first version lol\n• had some bugs but whatever\n• worked most of the time"
+})
+
+-- Server Info Vars
+local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
+
+-- Performance monitor vars
+local pingLabel
+local fpsLabel
+local currentPing = 0
+local currentFPS = 0
+
+-- Calculate FPS
+local lastUpdate = tick()
+local frameCount = 0
+
+RunService.RenderStepped:Connect(function()
+    frameCount = frameCount + 1
+    local now = tick()
+    if now - lastUpdate >= 1 then
+        currentFPS = frameCount
+        frameCount = 0
+        lastUpdate = now
+    end
+end)
+
+-- Calculate Ping
+task.spawn(function()
+    while true do
+        pcall(function()
+            local success, ping = pcall(function()
+                return Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
+            end)
+            if success then
+                currentPing = math.floor(ping)
+            end
+        end)
+        task.wait(1)
+    end
+end)
+
+-- Hitbox Expander Vars
+local HITBOX_ENABLED = false
+local HITBOX_TRANSPARENCY = 1
+local hitboxExpanderConnection
+
+local function EnableHitboxExpander()
+    if hitboxExpanderConnection then
+        hitboxExpanderConnection:Disconnect()
+    end
+    
+    hitboxExpanderConnection = RunService.Heartbeat:Connect(function()
+        if not HITBOX_ENABLED then
+            if hitboxExpanderConnection then
+                hitboxExpanderConnection:Disconnect()
+                hitboxExpanderConnection = nil
+            end
+            return
+        end
+        
+        for _, v in pairs(Players:GetPlayers()) do
+            pcall(function()
+                if v.Name ~= LocalPlayer.Name and v.Character then
+                    if v.Character:FindFirstChild("RightUpperLeg") then
+                        v.Character.RightUpperLeg.CanCollide = false
+                        v.Character.RightUpperLeg.Transparency = HITBOX_TRANSPARENCY
+                        v.Character.RightUpperLeg.Size = Vector3.new(13, 13, 13)
+                    end
+                    
+                    if v.Character:FindFirstChild("LeftUpperLeg") then
+                        v.Character.LeftUpperLeg.CanCollide = false
+                        v.Character.LeftUpperLeg.Transparency = HITBOX_TRANSPARENCY
+                        v.Character.LeftUpperLeg.Size = Vector3.new(13, 13, 13)
+                    end
+                    
+                    if v.Character:FindFirstChild("HeadHB") then
+                        v.Character.HeadHB.CanCollide = false
+                        v.Character.HeadHB.Transparency = HITBOX_TRANSPARENCY
+                        v.Character.HeadHB.Size = Vector3.new(13, 13, 13)
+                    end
+                    
+                    if v.Character:FindFirstChild("HumanoidRootPart") then
+                        v.Character.HumanoidRootPart.CanCollide = false
+                        v.Character.HumanoidRootPart.Transparency = HITBOX_TRANSPARENCY
+                        v.Character.HumanoidRootPart.Size = Vector3.new(13, 13, 13)
+                    end
+                end
+            end)
+        end
+    end)
+    
+    Rayfield:Notify({Title = "Hitbox Expander", Content = "Enabled! Enemy hitboxes expanded", Duration = 3})
+end
+
+local function DisableHitboxExpander()
+    if hitboxExpanderConnection then
+        hitboxExpanderConnection:Disconnect()
+        hitboxExpanderConnection = nil
+    end
+    
+    Rayfield:Notify({Title = "Hitbox Expander", Content = "Disabled!", Duration = 3})
+end
+
+-- WALKSPEED SYSTEM
+local WALKSPEED_ENABLED = false
+local WALKSPEED = 16
+local walkspeedConnection
+
+local function ApplyWalkSpeed()
+    pcall(function()
+        local character = LocalPlayer.Character
+        if not character then return end
+        
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if not humanoid then return end
+        
+        if WALKSPEED_ENABLED then
+            humanoid.WalkSpeed = WALKSPEED
+        else
+            humanoid.WalkSpeed = 16
+        end
+    end)
+end
+
+local function StartWalkSpeedLoop()
+    if walkspeedConnection then walkspeedConnection:Disconnect() end
+    
+    walkspeedConnection = RunService.Heartbeat:Connect(function()
+        if WALKSPEED_ENABLED then
+            pcall(function()
+                local character = LocalPlayer.Character
+                if character then
+                    local humanoid = character:FindFirstChildOfClass("Humanoid")
+                    if humanoid and humanoid.WalkSpeed ~= WALKSPEED then
+                        humanoid.WalkSpeed = WALKSPEED
+                    end
+                end
+            end)
+        end
+    end)
+end
+
+local function StopWalkSpeedLoop()
+    if walkspeedConnection then
+        walkspeedConnection:Disconnect()
+        walkspeedConnection = nil
+    end
+    
+    pcall(function()
+        local character = LocalPlayer.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.WalkSpeed = 16
+            end
+        end
+    end)
+end
+
+-- INFINITE JUMP SYSTEM
+local INFINITE_JUMP_ENABLED = false
+local infJumpConnection
+
+local function StartInfiniteJump()
+    if infJumpConnection then infJumpConnection:Disconnect() end
+    
+    infJumpConnection = UserInputService.JumpRequest:Connect(function()
+        pcall(function()
+            if not INFINITE_JUMP_ENABLED then return end
+            
+            local character = LocalPlayer.Character
+            if not character then return end
+            
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            end
+        end)
+    end)
+end
+
+local function StopInfiniteJump()
+    if infJumpConnection then
+        infJumpConnection:Disconnect()
+        infJumpConnection = nil
+    end
+end
+
+-- FLY SYSTEM
+local FLY_ENABLED = false
+local FLY_SPEED = 50
+local flyConnection
+
+local function StartFly()
+    pcall(function()
+        local character = LocalPlayer.Character
+        if not character then return end
+        
+        local rootPart = character:FindFirstChild("HumanoidRootPart")
+        if not rootPart then return end
+        
+        if flyConnection then flyConnection:Disconnect() end
+        
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.PlatformStand = true
+        end
+        
+        flyConnection = RunService.Heartbeat:Connect(function()
+            pcall(function()
+                if not FLY_ENABLED or not character or not character.Parent then
+                    if flyConnection then 
+                        flyConnection:Disconnect() 
+                        flyConnection = nil 
+                    end
+                    if humanoid then
+                        humanoid.PlatformStand = false
+                    end
+                    return
+                end
+                
+                if not rootPart or not rootPart.Parent then return end
+                
+                rootPart.Velocity = Vector3.new(0, 0, 0)
+                rootPart.RotVelocity = Vector3.new(0, 0, 0)
+                
+                local moveDirection = Vector3.new(0, 0, 0)
+                
+                if UserInputService:IsKeyDown(Enum.KeyCode.W) then
+                    moveDirection = moveDirection + Camera.CFrame.LookVector
+                end
+                if UserInputService:IsKeyDown(Enum.KeyCode.S) then
+                    moveDirection = moveDirection - Camera.CFrame.LookVector
+                end
+                if UserInputService:IsKeyDown(Enum.KeyCode.A) then
+                    moveDirection = moveDirection - Camera.CFrame.RightVector
+                end
+                if UserInputService:IsKeyDown(Enum.KeyCode.D) then
+                    moveDirection = moveDirection + Camera.CFrame.RightVector
+                end
+                if UserInputService:IsKeyDown(Enum.KeyCode.Space) then
+                    moveDirection = moveDirection + Vector3.new(0, 1, 0)
+                end
+                if UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) then
+                    moveDirection = moveDirection - Vector3.new(0, 1, 0)
+                end
+                
+                if moveDirection.Magnitude > 0 then
+                    moveDirection = moveDirection.Unit
+                    rootPart.CFrame = rootPart.CFrame + (moveDirection * FLY_SPEED * 0.016)
+                end
+                
+                rootPart.CFrame = CFrame.new(rootPart.Position) * CFrame.Angles(0, math.rad(Camera.CFrame:ToEulerAnglesYXZ()), 0)
+            end)
+        end)
+    end)
+end
+
+local function StopFly()
+    if flyConnection then
+        flyConnection:Disconnect()
+        flyConnection = nil
+    end
+    
+    pcall(function()
+        local character = LocalPlayer.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.PlatformStand = false
+            end
+            
+            local rootPart = character:FindFirstChild("HumanoidRootPart")
+            if rootPart then
+                rootPart.Velocity = Vector3.new(0, 0, 0)
+                rootPart.RotVelocity = Vector3.new(0, 0, 0)
+            end
+        end
+    end)
+end
+
+-- =============================================
+-- RAINBOW GUN SYSTEM (MOVED TO VISUALS)
+-- =============================================
+local RAINBOW_GUN_ENABLED = false
+local rainbowGunConnection
+local coloredParts = {}
+
+local rainbowSpeed = 0.13
+local function zigzag(X)
+    return math.acos(math.cos(X * math.pi)) / math.pi
+end
+
+local function StartRainbowGun()
+    if rainbowGunConnection then rainbowGunConnection:Disconnect() end
+    
+    coloredParts = {}
+    
+    rainbowGunConnection = RunService.RenderStepped:Connect(function()
+        pcall(function()
+            if not RAINBOW_GUN_ENABLED then return end
+            
+            local arms = workspace.CurrentCamera:FindFirstChild("Arms")
+            if arms then
+                local hue = zigzag(tick() * rainbowSpeed)
+                for _, v in pairs(arms:GetDescendants()) do
+                    if v:IsA("BasePart") then
+                        if not coloredParts[v] then
+                            coloredParts[v] = {
+                                OriginalColor = v.Color,
+                                OriginalMaterial = v.Material
+                            }
+                        end
+                        
+                        v.Color = Color3.fromHSV(hue, 1, 1)
+                    end
+                end
+            end
+        end)
+    end)
+    
+    Rayfield:Notify({
+        Title = "Rainbow Gun",
+        Content = "Enabled! Your gun is rainbow",
+        Duration = 3
+    })
+end
+
+local function StopRainbowGun()
+    if rainbowGunConnection then
+        rainbowGunConnection:Disconnect()
+        rainbowGunConnection = nil
+    end
+    
+    for part, data in pairs(coloredParts) do
+        pcall(function()
+            if part and part.Parent then
+                part.Color = data.OriginalColor
+                part.Material = data.OriginalMaterial
+            end
+        end)
+    end
+    coloredParts = {}
+    
+    Rayfield:Notify({
+        Title = "Rainbow Gun",
+        Content = "Disabled - colors restored",
+        Duration = 2
+    })
+end
+
+-- Handle character respawn
+LocalPlayer.CharacterAdded:Connect(function(character)
+    task.wait(0.5)
+    
+    coloredParts = {}
+    
+    if WALKSPEED_ENABLED then
+        ApplyWalkSpeed()
+    end
+    if FLY_ENABLED then
+        StartFly()
+    end
+    if INFINITE_JUMP_ENABLED then
+        StartInfiniteJump()
+    end
+    if RAINBOW_GUN_ENABLED then
+        StartRainbowGun()
+    end
+end)
+
+-- =============================================
+-- PLAYER TAB UI
+-- =============================================
+Player:CreateToggle({
+    Name = "Fly (WASD + Space/Shift)",
+    CurrentValue = false,
+    Callback = function(v)
+        FLY_ENABLED = v
+        if v then
+            StartFly()
+            Rayfield:Notify({Title = "Fly", Content = "Enabled!", Duration = 3})
+        else
+            StopFly()
+        end
+    end
+})
+
+Player:CreateSlider({
+    Name = "Fly Speed",
+    Range = {10, 200},
+    Increment = 5,
+    Suffix = " speed",
+    CurrentValue = 50,
+    Callback = function(v)
+        FLY_SPEED = v
+    end
+})
+
+Player:CreateToggle({
+    Name = "Infinite Jump",
+    CurrentValue = false,
+    Callback = function(v)
+        INFINITE_JUMP_ENABLED = v
+        if v then
+            StartInfiniteJump()
+            Rayfield:Notify({Title = "Infinite Jump", Content = "Enabled!", Duration = 3})
+        else
+            StopInfiniteJump()
+        end
+    end
+})
+
+Player:CreateToggle({
+    Name = "Custom WalkSpeed",
+    CurrentValue = false,
+    Callback = function(v)
+        WALKSPEED_ENABLED = v
+        if v then
+            StartWalkSpeedLoop()
+            ApplyWalkSpeed()
+            Rayfield:Notify({Title = "WalkSpeed", Content = "Enabled!", Duration = 3})
+        else
+            StopWalkSpeedLoop()
+        end
+    end
+})
+
+Player:CreateSlider({
+    Name = "WalkSpeed",
+    Range = {16, 200},
+    Increment = 1,
+    Suffix = " speed",
+    CurrentValue = 16,
+    Callback = function(v)
+        WALKSPEED = v
+        if WALKSPEED_ENABLED then
+            ApplyWalkSpeed()
+        end
+    end
+})
+
+-- Misc Tab UI
+Misc:CreateButton({
+    Name = "Kill GUI",
+    Callback = function()
+        print("========================================")
+        print("Killed CX Arsenal v1.1")
+        print("========================================")
+        
+        Rayfield:Notify({Title = "Destroying GUI...", Content = "Goodbye!", Duration = 2})
+        
+        task.wait(0.5)
+        
+        ESP_ENABLED = false
+        AIMBOT_ENABLED = false
+        FLY_ENABLED = false
+        WALKSPEED_ENABLED = false
+        HITBOX_ENABLED = false
+        INFINITE_JUMP_ENABLED = false
+        RAINBOW_GUN_ENABLED = false
+        NameProtectEnabled = false
+        
+        if espUpdateConn then espUpdateConn:Disconnect() end
+        if aimConn then aimConn:Disconnect() end
+        if flyConnection then flyConnection:Disconnect() end
+        if walkspeedConnection then walkspeedConnection:Disconnect() end
+        if infJumpConnection then infJumpConnection:Disconnect() end
+        if rainbowGunConnection then rainbowGunConnection:Disconnect() end
+        for _, conn in ipairs(NameProtectConnections) do pcall(function() conn:Disconnect() end) end
+        
+        for p in pairs(ESP_OBJECTS) do RemoveESP(p) end
+        
+        pcall(function() fovCircle:Remove() end)
+        
+        StopFly()
+        StopInfiniteJump()
+        StopRainbowGun()
+        
+        if HITBOX_ENABLED then
+            DisableHitboxExpander()
+        end
+        
+        StopWalkSpeedLoop()
+        
+        task.wait(0.5)
+        Rayfield:Destroy()
+    end
+})
+
+-- Combat Tab UI
+Combat:CreateToggle({
+    Name = "Aimbot (Hold RMB - Head)",
+    CurrentValue = false,
+    Callback = function(v)
+        AIMBOT_ENABLED = v
+        if v then StartAimbot() else if aimConn then aimConn:Disconnect() aimConn = nil end end
+    end
+})
+
+Combat:CreateSlider({
+    Name = "Smoothness (%)",
+    Range = {0, 100},
+    Increment = 1,
+    Suffix = "%",
+    CurrentValue = 40,
+    Callback = function(v) AIM_SMOOTHNESS = v / 100 end
+})
+
+Combat:CreateSlider({
+    Name = "FOV Size",
+    Range = {50, 800},
+    Increment = 10,
+    Suffix = "px",
+    CurrentValue = 150,
+    Callback = function(v) AIM_FOV = v fovCircle.Radius = v end
+})
+
+Combat:CreateToggle({
+    Name = "Show FOV Circle",
+    CurrentValue = false,
+    Callback = function(v) AIM_FOV_VISIBLE = v fovCircle.Visible = v end
+})
+
+Combat:CreateToggle({
+    Name = "Rainbow FOV",
+    CurrentValue = false,
+    Callback = function(v) AIM_FOV_RAINBOW = v end
+})
+
+Combat:CreateColorPicker({
+    Name = "FOV Color",
+    Color = AIM_FOV_COLOR,
+    Callback = function(c) AIM_FOV_COLOR = c if not AIM_FOV_RAINBOW then fovCircle.Color = c end end
+})
+
+Combat:CreateToggle({
+    Name = "Hitbox Expander",
+    CurrentValue = false,
+    Callback = function(v)
+        HITBOX_ENABLED = v
+        if v then
+            EnableHitboxExpander()
+        else
+            DisableHitboxExpander()
+        end
+    end
+})
+
+Combat:CreateSlider({
+    Name = "Hitbox Transparency",
+    Range = {0, 100},
+    Increment = 1,
+    Suffix = "%",
+    CurrentValue = 100,
+    Callback = function(v)
+        HITBOX_TRANSPARENCY = v / 100
+    end
+})
+
+-- Visuals Tab UI
+Visuals:CreateButton({
+    Name = "Hide YOUR Name",
+    Callback = function()
+        if not NameProtectEnabled then
+            NameProtectEnabled = true
+            EnableNameProtect()
+        else
+            Rayfield:Notify({Title = "Streamer Mode", Content = "Already enabled!", Duration = 2})
+        end
+    end
+})
+
+Visuals:CreateSection("Gun Modifications")
+
+Visuals:CreateToggle({
+    Name = "Rainbow Gun",
+    CurrentValue = false,
+    Callback = function(v)
+        RAINBOW_GUN_ENABLED = v
+        if v then
+            StartRainbowGun()
+        else
+            StopRainbowGun()
+        end
+    end
+})
+
+Visuals:CreateSection("ESP Options")
+
+Visuals:CreateToggle({
+    Name = "ESP (Boxes + Tracers)",
+    CurrentValue = false,
+    Callback = function(v)
+        ESP_ENABLED = v
+        if v then
+            for _, p in Players:GetPlayers() do if p ~= LocalPlayer then CreateESP(p) end end
+            if not espUpdateConn then espUpdateConn = RunService.RenderStepped:Connect(UpdateESP) end
+        else
+            if espUpdateConn then espUpdateConn:Disconnect() espUpdateConn = nil end
+            for p in pairs(ESP_OBJECTS) do RemoveESP(p) end
+        end
+    end
+})
+
+Visuals:CreateToggle({Name = "Team Check", CurrentValue = true, Callback = function(v) TEAM_CHECK = v end})
+Visuals:CreateToggle({Name = "Rainbow ESP", CurrentValue = false, Callback = function(v) RAINBOW_ESP = v end})
+Visuals:CreateColorPicker({Name = "ESP Color", Color = ESP_COLOR, Callback = function(c) ESP_COLOR = c end})
+
+-- =============================================
+-- SERVER TAB UI
+-- =============================================
+Server:CreateLabel("🟢 Status: Undetected")
+
+Server:CreateSection("Performance Monitor")
+
+pingLabel = Server:CreateLabel("Ping: Calculating...")
+fpsLabel = Server:CreateLabel("FPS: Calculating...")
+
+task.spawn(function()
+    while true do
+        pcall(function()
+            if pingLabel then
+                pingLabel:Set("Ping: " .. currentPing .. " ms")
+            end
+            if fpsLabel then
+                fpsLabel:Set("FPS: " .. currentFPS)
+            end
+        end)
+        task.wait(0.5)
+    end
+end)
+
+Server:CreateSection("Server Options")
+
+Server:CreateButton({
+    Name = "Rejoin Server",
+    Callback = function()
+        Rayfield:Notify({Title = "Rejoining...", Content = "Teleporting back", Duration = 2})
+        task.wait(1)
+        TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)
+    end
+})
+
+Server:CreateButton({
+    Name = "Join New Server",
+    Callback = function()
+        Rayfield:Notify({Title = "Finding Server...", Content = "Searching", Duration = 2})
+        task.wait(1)
+        TeleportService:Teleport(game.PlaceId, LocalPlayer)
+    end
+})
+
+-- FOV follow + rainbow
+RunService.RenderStepped:Connect(function()
+    pcall(function()
+        fovCircle.Position = UserInputService:GetMouseLocation()
+        if AIM_FOV_RAINBOW and AIM_FOV_VISIBLE then
+            fovCircle.Color = Color3.fromHSV((tick() * 0.3) % 1, 1, 1)
+        end
+    end)
+end)
+
+-- Player handlers
+Players.PlayerAdded:Connect(function(p)
+    if ESP_ENABLED and p ~= LocalPlayer then task.delay(1, function() CreateESP(p) end) end
+end)
+Players.PlayerRemoving:Connect(RemoveESP)
+
+-- UI toggle
+UserInputService.InputBegan:Connect(function(input)
+    pcall(function()
+        if input.KeyCode == Enum.KeyCode.Insert then
+            Rayfield:ToggleUI()
+        end
+    end)
+end)
+
+if INFINITE_JUMP_ENABLED then
+    StartInfiniteJump()
+end
+
+-- Cleanup
+game:BindToClose(function()
+    print("========================================")
+    print("Killed CX Arsenal v1.1")
+    print("========================================")
+    
+    if espUpdateConn then espUpdateConn:Disconnect() end
+    if aimConn then aimConn:Disconnect() end
+    if flyConnection then flyConnection:Disconnect() end
+    if hitboxExpanderConnection then hitboxExpanderConnection:Disconnect() end
+    if walkspeedConnection then walkspeedConnection:Disconnect() end
+    if infJumpConnection then infJumpConnection:Disconnect() end
+    if rainbowGunConnection then rainbowGunConnection:Disconnect() end
+    for p in pairs(ESP_OBJECTS) do RemoveESP(p) end
+    for _, conn in ipairs(NameProtectConnections) do pcall(function() conn:Disconnect() end) end
+    pcall(function() fovCircle:Remove() end)
+    StopFly()
+    StopInfiniteJump()
+    StopRainbowGun()
+end)
