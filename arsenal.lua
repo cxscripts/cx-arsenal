@@ -641,81 +641,9 @@ local function StopFly()
     end)
 end
 
--- =============================================
--- RAINBOW GUN SYSTEM (MOVED TO VISUALS)
--- =============================================
-local RAINBOW_GUN_ENABLED = false
-local rainbowGunConnection
-local coloredParts = {}
-
-local rainbowSpeed = 0.13
-local function zigzag(X)
-    return math.acos(math.cos(X * math.pi)) / math.pi
-end
-
-local function StartRainbowGun()
-    if rainbowGunConnection then rainbowGunConnection:Disconnect() end
-    
-    coloredParts = {}
-    
-    rainbowGunConnection = RunService.RenderStepped:Connect(function()
-        pcall(function()
-            if not RAINBOW_GUN_ENABLED then return end
-            
-            local arms = workspace.CurrentCamera:FindFirstChild("Arms")
-            if arms then
-                local hue = zigzag(tick() * rainbowSpeed)
-                for _, v in pairs(arms:GetDescendants()) do
-                    if v:IsA("BasePart") then
-                        if not coloredParts[v] then
-                            coloredParts[v] = {
-                                OriginalColor = v.Color,
-                                OriginalMaterial = v.Material
-                            }
-                        end
-                        
-                        v.Color = Color3.fromHSV(hue, 1, 1)
-                    end
-                end
-            end
-        end)
-    end)
-    
-    Rayfield:Notify({
-        Title = "Rainbow Gun",
-        Content = "Enabled! Your gun is rainbow",
-        Duration = 3
-    })
-end
-
-local function StopRainbowGun()
-    if rainbowGunConnection then
-        rainbowGunConnection:Disconnect()
-        rainbowGunConnection = nil
-    end
-    
-    for part, data in pairs(coloredParts) do
-        pcall(function()
-            if part and part.Parent then
-                part.Color = data.OriginalColor
-                part.Material = data.OriginalMaterial
-            end
-        end)
-    end
-    coloredParts = {}
-    
-    Rayfield:Notify({
-        Title = "Rainbow Gun",
-        Content = "Disabled - colors restored",
-        Duration = 2
-    })
-end
-
 -- Handle character respawn
 LocalPlayer.CharacterAdded:Connect(function(character)
     task.wait(0.5)
-    
-    coloredParts = {}
     
     if WALKSPEED_ENABLED then
         ApplyWalkSpeed()
@@ -725,9 +653,6 @@ LocalPlayer.CharacterAdded:Connect(function(character)
     end
     if INFINITE_JUMP_ENABLED then
         StartInfiniteJump()
-    end
-    if RAINBOW_GUN_ENABLED then
-        StartRainbowGun()
     end
 end)
 
@@ -820,7 +745,6 @@ Misc:CreateButton({
         WALKSPEED_ENABLED = false
         HITBOX_ENABLED = false
         INFINITE_JUMP_ENABLED = false
-        RAINBOW_GUN_ENABLED = false
         NameProtectEnabled = false
         
         if espUpdateConn then espUpdateConn:Disconnect() end
@@ -828,7 +752,6 @@ Misc:CreateButton({
         if flyConnection then flyConnection:Disconnect() end
         if walkspeedConnection then walkspeedConnection:Disconnect() end
         if infJumpConnection then infJumpConnection:Disconnect() end
-        if rainbowGunConnection then rainbowGunConnection:Disconnect() end
         for _, conn in ipairs(NameProtectConnections) do pcall(function() conn:Disconnect() end) end
         
         for p in pairs(ESP_OBJECTS) do RemoveESP(p) end
@@ -837,7 +760,6 @@ Misc:CreateButton({
         
         StopFly()
         StopInfiniteJump()
-        StopRainbowGun()
         
         if HITBOX_ENABLED then
             DisableHitboxExpander()
@@ -929,21 +851,6 @@ Visuals:CreateButton({
             EnableNameProtect()
         else
             Rayfield:Notify({Title = "Streamer Mode", Content = "Already enabled!", Duration = 2})
-        end
-    end
-})
-
-Visuals:CreateSection("Gun Modifications")
-
-Visuals:CreateToggle({
-    Name = "Rainbow Gun",
-    CurrentValue = false,
-    Callback = function(v)
-        RAINBOW_GUN_ENABLED = v
-        if v then
-            StartRainbowGun()
-        else
-            StopRainbowGun()
         end
     end
 })
@@ -1054,11 +961,9 @@ game:BindToClose(function()
     if hitboxExpanderConnection then hitboxExpanderConnection:Disconnect() end
     if walkspeedConnection then walkspeedConnection:Disconnect() end
     if infJumpConnection then infJumpConnection:Disconnect() end
-    if rainbowGunConnection then rainbowGunConnection:Disconnect() end
     for p in pairs(ESP_OBJECTS) do RemoveESP(p) end
     for _, conn in ipairs(NameProtectConnections) do pcall(function() conn:Disconnect() end) end
     pcall(function() fovCircle:Remove() end)
     StopFly()
     StopInfiniteJump()
-    StopRainbowGun()
 end)
